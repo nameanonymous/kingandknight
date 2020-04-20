@@ -1,23 +1,26 @@
 package sample;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.*;
+import sample.King;
+import java.util.Scanner;
+import java.util.Set;
 
 public class Controller {
-    private ImageView king = new ImageView(new Image(getClass().getResourceAsStream("/Chess_klt45.svg.png")));
-    private ImageView kngiht = new ImageView(new Image(getClass().getResourceAsStream("/800px-Chess_nlt45.svg.png")));
+
     @FXML
     private GridPane Panel8x8;
     private Pane[][] ArrayforPanel = new Pane[8][8];
-
-    public void setKing(ImageView king) {
-        this.king = king;
-    }
-
+    King kinginstance = new King();
+    Knight knightinstance = new Knight();
     public void initialize() {
+        //Create the Chessboard.
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Pane panel = new Pane();
@@ -33,10 +36,28 @@ public class Controller {
                 }
             }
         }
-        king.fitWidthProperty().bind(ArrayforPanel[0][0].widthProperty());
-        king.fitHeightProperty().bind(ArrayforPanel[0][0].widthProperty());
-        ArrayforPanel[2][3].getChildren().add(king);
+        //Fit the picture to each panel
+        kinginstance.getKing().fitHeightProperty().bind(ArrayforPanel[0][0].widthProperty());
+        kinginstance.getKing().fitWidthProperty().bind(ArrayforPanel[0][0].widthProperty());
+        //ArrayforPanel[2][5].getChildren().add(king);
+        knightinstance.getKnight().fitWidthProperty().bind(ArrayforPanel[0][0].widthProperty());
+        knightinstance.getKnight().fitHeightProperty().bind(ArrayforPanel[0][0].widthProperty());
+        //ArrayforPanel[3][5].getChildren().add(kngiht)
+        //Set the initial position
+        SettheKing(kinginstance.getColumn(),kinginstance.getRow());
+        System.out.println("KING: Column " + kinginstance.getColumn() + " , row "  + kinginstance.getRow());
+        SettheKnight(knightinstance.getColumn(),knightinstance.getRow());
+        System.out.println("KNIGHT: Column " + knightinstance.getColumn() + " , row "  + knightinstance.getRow());
+
     }
+
+    public void SettheKing(int x, int y){
+        ArrayforPanel[x][y].getChildren().add(kinginstance.getKing());
+    }
+    public void SettheKnight(int x, int y){
+        ArrayforPanel[x][y].getChildren().add(knightinstance.getKnight());
+    }
+
 
 
 }
