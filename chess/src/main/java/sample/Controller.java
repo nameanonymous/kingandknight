@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -12,7 +13,7 @@ import sample.King;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Controller {
+public class Controller extends Application {
 
     @FXML
     private GridPane Panel8x8;
@@ -39,10 +40,8 @@ public class Controller {
         //Fit the picture to each panel
         kinginstance.getKing().fitHeightProperty().bind(ArrayforPanel[0][0].widthProperty());
         kinginstance.getKing().fitWidthProperty().bind(ArrayforPanel[0][0].widthProperty());
-        //ArrayforPanel[2][5].getChildren().add(king);
         knightinstance.getKnight().fitWidthProperty().bind(ArrayforPanel[0][0].widthProperty());
         knightinstance.getKnight().fitHeightProperty().bind(ArrayforPanel[0][0].widthProperty());
-        //ArrayforPanel[3][5].getChildren().add(kngiht)
         //Set the initial position
         SettheKing(kinginstance.getColumn(),kinginstance.getRow());
         System.out.println("KING: Column " + kinginstance.getColumn() + " , row "  + kinginstance.getRow());
@@ -57,8 +56,12 @@ public class Controller {
     public void SettheKnight(int x, int y){
         ArrayforPanel[x][y].getChildren().add(knightinstance.getKnight());
     }
+    EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent e) {
+            System.out.println("Hello World");
+            }
+        kinginstance.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
 
-
-
-}
+    }
 
