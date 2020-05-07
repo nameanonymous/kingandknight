@@ -16,10 +16,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-public class King {
+public class King{
     private ImageView king = new ImageView(new Image(getClass().getResourceAsStream("/Chess_klt45.svg.png")));
-    private int Row,Column;
-    public King(){
+    private int Row, Column;
+
+    public King() {
         Row = 5;
         Column = 2;
         this.king = king;
@@ -48,4 +49,7 @@ public class King {
     public void setColumn(int column) {
         Column = column;
     }
+
+
+
 }

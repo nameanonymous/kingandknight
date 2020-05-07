@@ -13,7 +13,7 @@ import sample.King;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Controller extends Application {
+public class Controller {
 
     @FXML
     private GridPane Panel8x8;
@@ -25,7 +25,9 @@ public class Controller extends Application {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Pane panel = new Pane();
+                panel.setOnMouseClicked((event) -> {pawnClicked(event);});
                 Panel8x8.add(panel, i, j);
+
                 ArrayforPanel[i][j] = panel;
                 if ((i + j) % 2 == 0) {
                     panel.setStyle("-fx-background-color:#fce2c4");
@@ -56,12 +58,8 @@ public class Controller extends Application {
     public void SettheKnight(int x, int y){
         ArrayforPanel[x][y].getChildren().add(knightinstance.getKnight());
     }
-    EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent e) {
-            System.out.println("Hello World");
-            }
-        kinginstance.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
 
-    }
+    
+
+}
 
