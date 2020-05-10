@@ -44,4 +44,22 @@ public class Knight {
             this.row = j;
         }
     }
+
+    KnightMove[] KnightArray = new KnightMove[8];
+
+    public void KnightChange(int x, int y){
+        KnightArray[0] = new KnightMove(x-1, y-2);
+        KnightArray[1] = new KnightMove(x+1, y-2);
+        KnightArray[2] = new KnightMove(x-2, y-1);
+        KnightArray[3] = new KnightMove(x+2, y-1);
+        KnightArray[4] = new KnightMove(x-2, y+1);
+        KnightArray[5] = new KnightMove(x+2, y+1);
+        KnightArray[6] = new KnightMove(x-1, y+2);
+        KnightArray[7] = new KnightMove(x+1, y+2);
+
+
+
+
+
+    }
 }
