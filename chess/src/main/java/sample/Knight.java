@@ -35,4 +35,13 @@ public class Knight {
     public void setColumn(int column) {
         Column = column;
     }
+
+    class KnightMove {
+        public int column;
+        public int row;
+        public KnightMove(int i,int j ){
+            this.column = i;
+            this.row = j;
+        }
+    }
 }

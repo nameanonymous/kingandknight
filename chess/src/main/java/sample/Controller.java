@@ -3,6 +3,7 @@ package sample;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.effect.Light;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -10,6 +11,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.*;
 import sample.King;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -25,7 +28,9 @@ public class Controller {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Pane panel = new Pane();
-                panel.setOnMouseClicked((event) -> {pawnClicked(event);});
+                int finalI = i;
+                int finalJ = j;
+                panel.setOnMouseClicked((event) -> {pawnClicked(finalI, finalJ);});
                 Panel8x8.add(panel, i, j);
 
                 ArrayforPanel[i][j] = panel;
@@ -51,6 +56,47 @@ public class Controller {
         System.out.println("KNIGHT: Column " + knightinstance.getColumn() + " , row "  + knightinstance.getRow());
 
     }
+
+    private void pawnClicked(int i,int j) {
+        System.out.println("Clicked " + i + " " + j);
+        int initialkingcolumn = kinginstance.getColumn();
+        int initialkingrow = kinginstance.getRow();
+        int initialknightcolumn = knightinstance.getColumn();
+        int initialknightrow = knightinstance.getRow();
+
+        if(initialkingcolumn == i && initialkingrow == j)
+        {
+            System.out.println("You clicked the initial king place!");
+        }
+        if(initialknightcolumn == i && initialknightrow == j)
+        {
+            System.out.println("You clicked the initial knight place!");
+        }
+        int kingcol = kinginstance.getColumn();
+        System.out.println("NOW KING COLUMN " + kingcol);
+        int kingrw = kinginstance.getRow();
+        System.out.println("NOW KING ROW " + kingrw);
+        kinginstance.KingChange(kingcol,kingrw);
+
+        for(int x = 0; x < 8; x++)
+            {
+                System.out.println("King Array column and row" + kinginstance.KingArray[x].column + " " + kinginstance.KingArray[x].row );
+                if(kinginstance.KingArray[x].column == i && kinginstance.KingArray[x].row == j){
+                    {
+                        kinginstance.setRow(j);
+                        System.out.println("INSIDE IF KING ROW" + kinginstance.getRow());
+                        kinginstance.setColumn(i);
+                        System.out.println("INSIDE IF KING COLUMN" + kinginstance.getColumn());
+                        SettheKing(i,j);
+                    }
+                }
+
+        }
+
+
+    }
+
+
 
     public void SettheKing(int x, int y){
         ArrayforPanel[x][y].getChildren().add(kinginstance.getKing());
