@@ -104,7 +104,5 @@ public class King {
         KingArray[5] = new KingMove(x-1, y+1);
         KingArray[6] = new KingMove(x, y+1);
         KingArray[7] = new KingMove(x+1, y+1);
-
-
     }
 }

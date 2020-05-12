@@ -80,6 +80,8 @@ public class Controller {
                 System.out.println("King Array column and row" + kinginstance.KingArray[x].column + " " + kinginstance.KingArray[x].row);
                 isKingSelected = true;
                 isKnightSelected = false;
+                for (int y = 0; y < 8; y++)
+                    ArrayforPanel[kinginstance.KingArray[y].column][kinginstance.KingArray[y].row].setStyle("-fx-background-color:red");
             }
             if (isKingSelected == true) {
                 if (kinginstance.KingArray[x].column == i && kinginstance.KingArray[x].row == j) {
@@ -90,12 +92,16 @@ public class Controller {
                         System.out.println("INSIDE OF KING COLUMN" + kinginstance.getColumn());
                         SettheKing(i, j);
                         isKingSelected = false;
+                        for (int y = 0; y < 8; y++)
+                            ArrayforPanel[kinginstance.KingArray[y].column][kinginstance.KingArray[y].row].setStyle("default");
                     }
                 }
             } else if (knightcol == i && knightrw == j) {
                 System.out.println("Knight Array column and row" + knightinstance.KnightArray[x].column + " " + knightinstance.KnightArray[x].row);
                 isKnightSelected = true;
                 isKingSelected = false;
+                for (int y = 0; y < 8; y++)
+                    ArrayforPanel[kinginstance.KingArray[y].column][kinginstance.KingArray[y].row].setStyle("-fx-background-color:red");
             }
             if (isKnightSelected == true) {
                 if (knightinstance.KnightArray[x].column == i && knightinstance.KnightArray[x].row == j) {
@@ -106,6 +112,8 @@ public class Controller {
                         System.out.println("INSIDE OF KNIGHT COLUMN" + knightinstance.getColumn());
                         SettheKnight(i, j);
                         isKnightSelected = false;
+                        for (int y = 0; y < 8; y++)
+                            ArrayforPanel[kinginstance.KingArray[y].column][kinginstance.KingArray[y].row].setStyle("default");
                     }
                 }
             }
