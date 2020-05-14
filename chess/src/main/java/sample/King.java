@@ -95,14 +95,21 @@ public class King {
 //        kingmoving8.column = x+1;
 //        kingmoving8.row = y+1;
 //        KingArray[7] = kingmoving8;
-
-        KingArray[0] = new KingMove(x-1, y-1);
-        KingArray[1] = new KingMove(x, y-1);
-        KingArray[2] = new KingMove(x+1, y-1);
-        KingArray[3] = new KingMove(x-1, y);
-        KingArray[4] = new KingMove(x+1, y);
-        KingArray[5] = new KingMove(x-1, y+1);
-        KingArray[6] = new KingMove(x, y+1);
-        KingArray[7] = new KingMove(x+1, y+1);
+    if( x-1 >= 0 && x+1 < 8 && y-1 >= 0 && y+1 < 8 ){
+        KingArray[0] = new KingMove(x-1, y-1);}
+    if( x-1 >= 0 && x+1 < 8 && y-1 >= 0 && y+1 < 8 ){
+        KingArray[1] = new KingMove(x, y-1);}
+    if( x-1 >= 0 && x+1 < 8 && y-1 >= 0 && y+1 < 8 ){
+        KingArray[2] = new KingMove(x+1, y-1);}
+    if( x-1 >= 0 && x+1 < 8 && y-1 >= 0 && y+1 < 8 ){
+        KingArray[3] = new KingMove(x-1, y);}
+    if( x-1 >= 0 && x+1 < 8 && y-1 >= 0 && y+1 < 8 ){
+        KingArray[4] = new KingMove(x+1, y);}
+    if( x-1 >= 0 && x+1 < 8 && y-1 >= 0 && y+1 < 8 ){
+        KingArray[5] = new KingMove(x-1, y+1);}
+    if( x-1 >= 0 && x+1 < 8 && y-1 >= 0 && y+1 < 8 ){
+        KingArray[6] = new KingMove(x, y+1);}
+    if( x-1 >= 0 && x+1 < 8 && y-1 >= 0 && y+1 < 8 ){
+        KingArray[7] = new KingMove(x+1, y+1);}
     }
 }
