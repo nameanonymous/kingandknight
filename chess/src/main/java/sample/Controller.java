@@ -1,8 +1,12 @@
 package sample;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class Controller {
 
@@ -108,28 +112,28 @@ public class Controller {
         for (int x = 0; x < 8; x++) {
             if (kingcol == i && kingrw == j) {
                 System.out.println("King row and column: " + i + " " + j);
-                System.out.println("King moveable column and row" + kinginstance.KingArray[x].column + " " + kinginstance.KingArray[x].row);
+                System.out.println("King moveable column and row " + kinginstance.moveableList.get(x).column + " " + kinginstance.moveableList.get(x).row);
                 isKingSelected = true;
                 isKnightSelected = false;
-                for (int y = 0; y < 8; y++)
-                    ArrayforPanel[kinginstance.KingArray[y].column][kinginstance.KingArray[y].row].setStyle("-fx-background-color:red");
+                for (int y = 0; y < kinginstance.moveableList.size(); y++)
+                    ArrayforPanel[kinginstance.moveableList.get(x).column][kinginstance.moveableList.get(x).row].setStyle("-fx-background-color:red");
             }
             if (isKingSelected == true) {
-                if (kinginstance.KingArray[x].column == i && kinginstance.KingArray[x].row == j) {
+                if (kinginstance.moveableList.get(x).column == i && kinginstance.moveableList.get(x).row == j) {
                     {
                         KingDraw(i, j);
                         Checker(i, j);
                     }
                 }
             } else if (knightcol == i && knightrw == j) {
-                System.out.println("Knight Array column and row" + knightinstance.KnightArray[x].column + " " + knightinstance.KnightArray[x].row);
+                System.out.println("Knight Array column and row" + knightinstance.moveableList2.get(x).column + " " + knightinstance.moveableList2.get(x).row);
                 isKnightSelected = true;
                 isKingSelected = false;
-                for (int y = 0; y < 8; y++)
-                    ArrayforPanel[knightinstance.KnightArray[y].column][knightinstance.KnightArray[y].row].setStyle("-fx-background-color:red");
+                for (int y = 0; y < knightinstance.moveableList2.size(); y++)
+                    ArrayforPanel[knightinstance.moveableList2.get(y).column][knightinstance.moveableList2.get(y).row].setStyle("-fx-background-color:red");
             }
             if (isKnightSelected == true) {
-                if (knightinstance.KnightArray[x].column == i && knightinstance.KnightArray[x].row == j) {
+                if (knightinstance.moveableList2.get(x).column == i && knightinstance.moveableList2.get(x).row == j) {
                     {
                         KnightDraw(i, j);
                         Checker(i, j);
@@ -156,18 +160,18 @@ public class Controller {
         SettheKing(i, j);
         isKingSelected = false;
         count++;
-        for (int z = 0; z < 8; z++) {
-            if (i == knightinstance.KnightArray[z].column && j == knightinstance.KnightArray[z].row) {
+        for (int z = 0; z < knightinstance.moveableList2.size(); z++) {
+            if (i == knightinstance.moveableList2.get(z).column && j == knightinstance.moveableList2.get(z).row) {
                 System.out.println("We found this game can continue. GO ahead!");
             }
         }
-        for (int y = 0; y < 8; y++) {
-            i = kinginstance.KingArray[y].column;
-            j = kinginstance.KingArray[y].row;
+        for (int y = 0; y < kinginstance.moveableList.size(); y++) {
+            i = kinginstance.moveableList.get(y).column;
+            j = kinginstance.moveableList.get(y).row;
             if ((i + j) % 2 == 0) {
-                ArrayforPanel[kinginstance.KingArray[y].column][kinginstance.KingArray[y].row].setStyle("-fx-background-color:#fce2c4");
+                ArrayforPanel[kinginstance.moveableList.get(y).column][kinginstance.moveableList.get(y).row].setStyle("-fx-background-color:#fce2c4");
             } else {
-                ArrayforPanel[kinginstance.KingArray[y].column][kinginstance.KingArray[y].row].setStyle("-fx-background-color:orange");
+                ArrayforPanel[kinginstance.moveableList.get(y).column][kinginstance.moveableList.get(y).row].setStyle("-fx-background-color:orange");
             }
         }
     }
@@ -181,20 +185,20 @@ public class Controller {
         SettheKnight(i, j);
         isKnightSelected = false;
         count++;
-        for (int z = 0; z < 8; z++) {
-            if (i == kinginstance.KingArray[z].column && j == kinginstance.KingArray[z].row) {
+        for (int z = 0; z < kinginstance.moveableList.size(); z++) {
+            if (i == kinginstance.moveableList.get(z).column && j == kinginstance.moveableList.get(z).row) {
                 System.out.println("We found this game can continue. GO ahead!");
             }
         }
 
 
-        for (int y = 0; y < 8; y++) {
-            i = knightinstance.KnightArray[y].column;
-            j = knightinstance.KnightArray[y].row;
+        for (int y = 0; y < knightinstance.moveableList2.size(); y++) {
+            i = knightinstance.moveableList2.get(y).column;
+            j = knightinstance.moveableList2.get(y).row;
             if ((i + j) % 2 == 0) {
-                ArrayforPanel[knightinstance.KnightArray[y].column][knightinstance.KnightArray[y].row].setStyle("-fx-background-color:#fce2c4");
+                ArrayforPanel[knightinstance.moveableList2.get(y).column][knightinstance.moveableList2.get(y).row].setStyle("-fx-background-color:#fce2c4");
             } else {
-                ArrayforPanel[knightinstance.KnightArray[y].column][knightinstance.KnightArray[y].row].setStyle("-fx-background-color:orange");
+                ArrayforPanel[knightinstance.moveableList2.get(y).column][knightinstance.moveableList2.get(y).row].setStyle("-fx-background-color:orange");
             }
         }
     }
@@ -207,7 +211,13 @@ public class Controller {
     public void SettheKnight(int x, int y) {
         ArrayforPanel[x][y].getChildren().add(knightinstance.getKnight());
     }
-
+    public void start2(Stage primaryStage) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("/result.fxml"));
+        primaryStage.setTitle("KING AND KNIGHT");
+        primaryStage.setResizable(false);
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
 
 }
 
