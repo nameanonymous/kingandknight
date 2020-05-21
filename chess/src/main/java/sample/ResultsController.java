@@ -14,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import result.GameResult;
 
 import java.io.IOException;
@@ -58,10 +59,47 @@ public class ResultsController {
         List<GameResult> toptenList = gameResultDao.findBest(10);
 
         player.setCellValueFactory(new PropertyValueFactory<>("player"));
-        counts.setCellValueFactory(new PropertyValueFactory<>("counts"));
+        counts.setCellValueFactory(new PropertyValueFactory<>("steps"));
         duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         created.setCellValueFactory(new PropertyValueFactory<>("created"));
 
+
+        duration.setCellFactory(column -> {
+            TableCell<GameResult, Duration> cell = new TableCell<GameResult, Duration>() {
+
+                @Override
+                protected void updateItem(Duration item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if(empty) {
+                        setText(null);
+                    }
+                    else {
+                        setText(DurationFormatUtils.formatDuration(item.toMillis(),"H:mm:ss"));
+                    }
+                }
+            };
+
+            return cell;
+        });
+
+        created.setCellFactory(column -> {
+            TableCell<GameResult, ZonedDateTime> cell = new TableCell<GameResult, ZonedDateTime>() {
+                private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd - HH:mm:ss Z");
+
+                @Override
+                protected void updateItem(ZonedDateTime item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if(empty) {
+                        setText(null);
+                    }
+                    else {
+                        setText(item.format(formatter));
+                    }
+                }
+            };
+
+            return cell;
+        });
 
         ObservableList<GameResult> observableResult = FXCollections.observableArrayList();
         observableResult.addAll(toptenList);

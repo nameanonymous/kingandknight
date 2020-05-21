@@ -1,12 +1,16 @@
 package sample;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
 
 public class Controller {
 
@@ -218,6 +222,19 @@ public class Controller {
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
+    public void finishGame(ActionEvent actionEvent) throws IOException {
+        int a = kinginstance.getColumn();
+        int b = kinginstance.getRow();
+        int c = knightinstance.getColumn();
+        int d = knightinstance.getRow();
 
+        if ((a == 6 && b == 7)||(c == 6 && d == 7)) {
+            Parent root = FXMLLoader.load(getClass().getResource("results.fxml"));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+            log.info("Finished game, loading Top Ten scene.");
+        }
+    }
 }
 
