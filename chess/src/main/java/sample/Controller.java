@@ -10,8 +10,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import java.io.IOException;
+import result.GameResult;
+import result.GameResultDao;
 
+import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.Temporal;
+
+@Slf4j
 public class Controller {
 
     King kinginstance = new King();
@@ -19,9 +26,12 @@ public class Controller {
     boolean isKingSelected;
     boolean isKnightSelected;
     int count = 0;
+    private GameResultDao gameResultDao;
     @FXML
     private GridPane Panel8x8;
     private Pane[][] ArrayforPanel = new Pane[8][8];
+    private String userName;
+    private Instant beginGame;
 
     public void drawChessboard() {
         //Create the chessboard
@@ -49,29 +59,7 @@ public class Controller {
     }
 
     public void initialize() {
-        //Create the Chessboard.
-//        for (int i = 0; i < 8; i++) {
-//            for (int j = 0; j < 8; j++) {
-//                Pane panel = new Pane();
-//                int finalI = i;
-//                int finalJ = j;
-//                panel.setOnMouseClicked((event) -> {
-//                    pawnClicked(finalI, finalJ);
-//                });
-//                Panel8x8.add(panel, i, j);
-//
-//                ArrayforPanel[i][j] = panel;
-//                if ((i + j) % 2 == 0) {
-//                    panel.setStyle("-fx-background-color:#fce2c4");
-//                } else {
-//                    panel.setStyle("-fx-background-color:orange");
-//                }
-//                if (i == 6 && j == 7) {
-//                    panel.setStyle("-fx-background-color:red");
-//                }
-//            }
-//        }
-        //Fit the picture to each panel
+        beginGame = Instant.now();
         drawChessboard();
         kinginstance.getKing().fitHeightProperty().bind(ArrayforPanel[0][0].widthProperty());
         kinginstance.getKing().fitWidthProperty().bind(ArrayforPanel[0][0].widthProperty());
@@ -222,6 +210,19 @@ public class Controller {
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
+    public void initdata(String userName) {
+        this.userName = userName;
+    }
+
+    private GameResult getResult() {
+
+        GameResult result = GameResult.builder()
+                .player(userName)
+                .duration(Duration.between(beginGame, Instant.now()))
+                .counts(count)
+                .build();
+        return result;
+    }
     public void finishGame(ActionEvent actionEvent) throws IOException {
         int a = kinginstance.getColumn();
         int b = kinginstance.getRow();
@@ -229,6 +230,7 @@ public class Controller {
         int d = knightinstance.getRow();
 
         if ((a == 6 && b == 7)||(c == 6 && d == 7)) {
+            gameResultDao.persist(getResult());
             Parent root = FXMLLoader.load(getClass().getResource("results.fxml"));
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));

@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import result.GameResult;
+import result.GameResultDao;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -40,6 +41,7 @@ public class ResultsController {
 
     @FXML
     private TableColumn<GameResult, ZonedDateTime> created;
+    private GameResultDao gameResultDao;
 
 
     public void back(ActionEvent actionEvent) throws IOException {

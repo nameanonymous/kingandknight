@@ -25,8 +25,6 @@ import java.time.ZonedDateTime;
         @Column(nullable = false)
         private String player;
 
-        private boolean solved;
-
         private int counts;
 
         @Column(nullable = false)

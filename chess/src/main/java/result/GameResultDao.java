@@ -1,6 +1,6 @@
 package result;
 
-import util.jpa.GenericJpaDao;
+import jpa.GenericJpaDao;
 import javax.persistence.Persistence;
 import java.util.List;
 
@@ -17,6 +17,7 @@ public class GameResultDao extends GenericJpaDao<GameResult> {
 
     /**
      * Creates an entityManagerFactory.
+     *
      * @return an instance.
      */
     public static GameResultDao getInstance() {
@@ -40,3 +41,4 @@ public class GameResultDao extends GenericJpaDao<GameResult> {
                 .setMaxResults(n)
                 .getResultList();
     }
+}
