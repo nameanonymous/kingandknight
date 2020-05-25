@@ -17,14 +17,14 @@ import javafx.stage.Stage;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import result.GameResult;
 import result.GameResultDao;
-
+import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-
+@Slf4j
 public class ResultsController {
 
     @FXML
@@ -50,7 +50,7 @@ public class ResultsController {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
-        //log.info("Loading launch scene.");
+        log.info("Loading launch scene.");
     }
 
 

@@ -14,18 +14,11 @@ import java.io.IOException;
 import java.util.zip.CheckedOutputStream;
 
 @Slf4j
-public class LaunchController {
+public class TryagainController {
+    public void initialize(){
 
-    @FXML
-    private TextField usernamefield;
-
-    @FXML
-    private Label errorLabel;
-
+    }
     public void startAction(ActionEvent actionEvent) throws IOException {
-        if (usernamefield.getText().isEmpty()) {
-            errorLabel.setText("* Username is empty!");
-        } else {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample.fxml"));
             Parent root = fxmlLoader.load();
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -35,4 +28,4 @@ public class LaunchController {
         }
 
     }
-}
+

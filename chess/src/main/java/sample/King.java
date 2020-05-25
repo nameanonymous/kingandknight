@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.lang.*;
 public class King {
     private ImageView king = new ImageView(new Image(getClass().getResourceAsStream("/Chess_klt45.svg.png")));
     private int Row, Column;
@@ -54,11 +54,20 @@ public class King {
     }
 
     class KingMove {
+
         public int column;
         public int row;
-        public KingMove(int i,int j ){
+
+        public KingMove(int i, int j ){
             this.column = i;
             this.row = j;
+        }
+
+        public int getColumn() {
+            return column;
+        }
+        public int getRow() {
+            return column;
         }
     }
 
@@ -85,7 +94,6 @@ public class King {
 
 //                if((x-1 >= 0 || x+1 < 8) && (y-1 >= 0 || y+1 < 8))
     }
-
 
 
 

@@ -40,11 +40,20 @@ public class Knight {
     }
 
     class KnightMove {
+
+
         public int column;
         public int row;
         public KnightMove(int i,int j ){
             this.column = i;
             this.row = j;
+        }
+        public int getColumn() {
+            return column;
+        }
+
+        public int getRow() {
+            return row;
         }
     }
 
@@ -54,13 +63,21 @@ public class Knight {
 
     public void KnightChange(int x, int y){
             moveableList2.clear();
+        if(x-1 >= 0 && y-2 >= 0)//A
             moveableList2.add(new KnightMove(x-1, y-2));
+        if(x-1 < 8 && y-2 >= 0)//B
             moveableList2.add(new KnightMove(x+1, y-2));
+        if(x-2 >= 0 && y-1 >= 0)//C
             moveableList2.add(new KnightMove(x-2, y-1));
+        if(x+2 < 8 && y-1 >= 0)//D
             moveableList2.add(new KnightMove(x+2, y-1));
+        if(x-2 >= 0 && y+1 < 8)//E
             moveableList2.add(new KnightMove(x-2, y+1));
+        if(x+2 <8  && y+1 < 8)//F
             moveableList2.add(new KnightMove(x+2, y+1));
+        if(x-1 >= 0 && y+2 <8)//G
             moveableList2.add(new KnightMove(x-1, y+2));
+        if(x+1 < 8 && y+2 < 8)//H
             moveableList2.add(new KnightMove(x+1, y+2));
 //        KnightArray[0] = new KnightMove(x-1, y-2);
 //        KnightArray[1] = new KnightMove(x+1, y-2);
@@ -71,9 +88,7 @@ public class Knight {
 //        KnightArray[6] = new KnightMove(x-1, y+2);
 //        KnightArray[7] = new KnightMove(x+1, y+2);
 
-
-
-
-
     }
+
+
 }

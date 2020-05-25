@@ -13,10 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import result.GameResult;
 import result.GameResultDao;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.Temporal;
 
 @Slf4j
 public class Controller {
@@ -32,6 +30,7 @@ public class Controller {
     private Pane[][] ArrayforPanel = new Pane[8][8];
     private String userName;
     private Instant beginGame;
+    private boolean finishGamecondition;
 
     public void drawChessboard() {
         //Create the chessboard
@@ -75,36 +74,16 @@ public class Controller {
 
     private void pawnClicked(int i, int j) {
         System.out.println("Clicked " + i + " " + j);
-        int prevkingcolumn = kinginstance.getColumn();
-        int prevkingrow = kinginstance.getRow();
-        int prevknightcolumn = knightinstance.getColumn();
-        int prevknightrow = knightinstance.getRow();
-        int oppcoulmn;
-        int opprow;
-        boolean continueable = false;
-
-        if (prevkingcolumn == i && prevkingrow == j) {
-            System.out.println("You clicked the prev king place!");
-        }
-        if (prevknightcolumn == i && prevknightrow == j) {
-            System.out.println("You clicked the prev knight place!");
-        }
         int kingcol = kinginstance.getColumn();
-        System.out.println("NOW KING COLUMN " + kingcol);
         int kingrw = kinginstance.getRow();
-        System.out.println("NOW KING ROW " + kingrw);
         kinginstance.KingChange(kingcol, kingrw);
 
         int knightcol = knightinstance.getColumn();
-        System.out.println("NOW KNIGHT COLUMN " + knightcol);
         int knightrw = knightinstance.getRow();
-        System.out.println("NOW KNIGHT ROW " + knightrw);
         knightinstance.KnightChange(knightcol, knightrw);
 
         for (int x = 0; x < 8; x++) {
             if (kingcol == i && kingrw == j) {
-                System.out.println("King row and column: " + i + " " + j);
-                System.out.println("King moveable column and row " + kinginstance.moveableList.get(x).column + " " + kinginstance.moveableList.get(x).row);
                 isKingSelected = true;
                 isKnightSelected = false;
                 for (int y = 0; y < kinginstance.moveableList.size(); y++)
@@ -114,11 +93,10 @@ public class Controller {
                 if (kinginstance.moveableList.get(x).column == i && kinginstance.moveableList.get(x).row == j) {
                     {
                         KingDraw(i, j);
-                        Checker(i, j);
+                        KingChecker(i, j);
                     }
                 }
             } else if (knightcol == i && knightrw == j) {
-                System.out.println("Knight Array column and row" + knightinstance.moveableList2.get(x).column + " " + knightinstance.moveableList2.get(x).row);
                 isKnightSelected = true;
                 isKingSelected = false;
                 for (int y = 0; y < knightinstance.moveableList2.size(); y++)
@@ -128,7 +106,7 @@ public class Controller {
                 if (knightinstance.moveableList2.get(x).column == i && knightinstance.moveableList2.get(x).row == j) {
                     {
                         KnightDraw(i, j);
-                        Checker(i, j);
+                        KnightChecker(i, j);
                     }
                 }
             }
@@ -137,26 +115,65 @@ public class Controller {
 
     }
 
-    public void Checker(int i, int j) {
+    public void KingChecker(int i, int j) {
+        log.info("CHECKER METHOD CALLED");
+        Knight.KnightMove findout = knightinstance.moveableList2.stream()
+                .filter(checkval -> checkval.getColumn() == i)
+                .filter(checkval -> checkval.getRow() == j)
+                .findAny()
+                .orElse(null);
+        System.out.println(findout);
+        System.out.println(kinginstance.moveableList.get(7).column + " " + kinginstance.moveableList.get(7).row);
+        kinginstance.KingChange(i,j);
+        System.out.println(kinginstance.moveableList.get(7).column + " " + kinginstance.moveableList.get(7).row);
+        int knightcol = knightinstance.getColumn();
+        int knightrw = knightinstance.getRow();
+        King.KingMove findrange = kinginstance.moveableList.stream()
+                .filter(checkval -> checkval.getColumn() == knightcol)
+                .filter(checkval -> checkval.getRow() == knightrw)
+                .findAny()
+                .orElse(null);
+        System.out.println(findrange);
+        //131-135 is for checking for king, from 120 to 125 it will check is the king pawn is inside the range of knight.
+        //If not, we have to check for king is there any knight pawn inside the king range.
+        //So this lamda expression will check are there any "KNIGHT" pawn in the king range. But it doen't works correctly. WHY???
 
         if (i == 6 && j == 7) {
             System.out.println("GOOOOOOOOOOOOOOOOOOOOOOAAAAAAAAAAAAAAAAAAAAAAAAAL!!!!!");
+            finishGamecondition = true;
         }
+
+    }
+    public void KnightChecker(int i, int j) {
+        log.info("CHECKER METHOD CALLED");
+        King.KingMove findout = kinginstance.moveableList.stream()
+                .filter(checkval -> checkval.getColumn() == i)
+                .filter(checkval -> checkval.getRow() == j)
+                .findAny()
+                .orElse(null);
+        knightinstance.KnightChange(i,j);
+
+        Knight.KnightMove findrange = knightinstance.moveableList2.stream()
+                .filter(checkval -> checkval.getColumn() == kinginstance.getColumn())
+                .filter(checkval -> checkval.getRow() == kinginstance.getRow())
+                .findAny()
+                .orElse(null);
+        System.out.println(findrange);
+        //This will also have the same problem as KingChecker method...but it works lol
+
+        if (i == 6 && j == 7) {
+            System.out.println("GOOOOOOOOOOOOOOOOOOOOOOAAAAAAAAAAAAAAAAAAAAAAAAAL!!!!!");
+            finishGamecondition = true;
+        }
+
     }
 
     public void KingDraw(int i, int j) {
         kinginstance.setRow(j);
-        System.out.println("INSIDE OF KING ROW" + kinginstance.getRow());
         kinginstance.setColumn(i);
-        System.out.println("INSIDE OF KING COLUMN" + kinginstance.getColumn());
         SettheKing(i, j);
         isKingSelected = false;
         count++;
-        for (int z = 0; z < knightinstance.moveableList2.size(); z++) {
-            if (i == knightinstance.moveableList2.get(z).column && j == knightinstance.moveableList2.get(z).row) {
-                System.out.println("We found this game can continue. GO ahead!");
-            }
-        }
         for (int y = 0; y < kinginstance.moveableList.size(); y++) {
             i = kinginstance.moveableList.get(y).column;
             j = kinginstance.moveableList.get(y).row;
@@ -171,19 +188,10 @@ public class Controller {
     public void KnightDraw(int i, int j) {
 
         knightinstance.setRow(j);
-        System.out.println("INSIDE OF KNIGHT ROW" + knightinstance.getRow());
         knightinstance.setColumn(i);
-        System.out.println("INSIDE OF KNIGHT COLUMN" + knightinstance.getColumn());
         SettheKnight(i, j);
         isKnightSelected = false;
         count++;
-        for (int z = 0; z < kinginstance.moveableList.size(); z++) {
-            if (i == kinginstance.moveableList.get(z).column && j == kinginstance.moveableList.get(z).row) {
-                System.out.println("We found this game can continue. GO ahead!");
-            }
-        }
-
-
         for (int y = 0; y < knightinstance.moveableList2.size(); y++) {
             i = knightinstance.moveableList2.get(y).column;
             j = knightinstance.moveableList2.get(y).row;
@@ -203,13 +211,15 @@ public class Controller {
     public void SettheKnight(int x, int y) {
         ArrayforPanel[x][y].getChildren().add(knightinstance.getKnight());
     }
-    public void start2(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/result.fxml"));
+
+    public void start2(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/results.fxml"));
         primaryStage.setTitle("KING AND KNIGHT");
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
+
     public void initdata(String userName) {
         this.userName = userName;
     }
@@ -223,20 +233,30 @@ public class Controller {
                 .build();
         return result;
     }
-    public void finishGame(ActionEvent actionEvent) throws IOException {
-        int a = kinginstance.getColumn();
-        int b = kinginstance.getRow();
-        int c = knightinstance.getColumn();
-        int d = knightinstance.getRow();
 
-        if ((a == 6 && b == 7)||(c == 6 && d == 7)) {
+    public void finishGame(ActionEvent actionEvent) throws Exception {
+        if (finishGamecondition == true) {
             gameResultDao.persist(getResult());
-            Parent root = FXMLLoader.load(getClass().getResource("results.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/results.fxml"));
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
             log.info("Finished game, loading Top Ten scene.");
+        } else {
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            tryagain(stage);
         }
+
+    }
+
+    public void tryagain(Stage tryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/tryagain.fxml"));
+        tryStage.setTitle("KING AND KNIGHT");
+        tryStage.setResizable(false);
+        tryStage.setScene(new Scene(root));
+        tryStage.show();
     }
 }
+
+
 
